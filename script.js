@@ -1,6 +1,5 @@
 
   // ===== CONFIG =====
-  // Use EITHER your /exec URL OR the long googleusercontent URL (post-redirect).
   const API_BASE = 'https://script.google.com/macros/s/AKfycbyPzgfbQeVfySIxARJiLc_QzIEkw-QAvpcvitXcdyZAF7CdY6uIJEzR9cA16jlBkHelVA/exec';
 
   // Build a URL safely whether API_BASE already has query params or not.
@@ -29,10 +28,17 @@
     const isActive = String(r.Status).toLowerCase() === 'active';
     const statusClass = isActive ? 'status-ok' : 'status-bad';
     const statusIcon = isActive ? '✅' : '⚠️';
+    
+    // Use provided photo URL or placeholder
+    const photoUrl = r.Photo_URL || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
+    
     document.getElementById('content').innerHTML = `
-      <div class="row">
-        <span class="label">Verified ID</span>
-        <span class="value">${r.Full_Name}<div class="verification-badge">${r.CWB_ID}</div></span>
+      <div class="profile-section">
+        <img src="${photoUrl}" alt="${r.Full_Name}" class="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format'">
+        <div class="profile-info">
+          <div class="profile-name">${r.Full_Name}</div>
+          <div class="profile-id">${r.CWB_ID}</div>
+        </div>
       </div>
       <div class="row">
         <span class="label">Role</span>
